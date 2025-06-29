@@ -1,0 +1,81 @@
+# Node modules and build output
+node_modules/
+bower_components/
+dist/
+dist-ssr/
+build/
+ai/node_modules/
+ai/dist/
+ai/build/
+.ai/node_modules/
+.ai/dist/
+.ai/build/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Vite cache
+.vite/
+.ai/.vite/
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.sublime*
+*.code-workspace
+
+# Mac system files
+.DS_Store
+.DS_*
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Backup & temp files
+*.sw?
+**/*.backup.*
+**/*.back.*
+*.tmp
+*.temp
+
+# Appwrite SDK generated files (if any)
+src/appwrite/generated/
+
+# Test coverage
+coverage/
+*.lcov
+
+# Misc
+*.local
+*.psd
+*.sketch
+*.thumb
+
+# AI backend (Express/Node) logs and env
+ai/.env
+ai/.env.*
+ai/logs/
+ai/*.log
+
+# Ignore public build artifacts
+public/build/
+public/dist/
+
+# Ignore package lock files (optional, if using only one lock file)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
