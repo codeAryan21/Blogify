@@ -6,7 +6,9 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin : 'blogify-teal.vercel.app'
+}));
 app.use(express.json());
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
