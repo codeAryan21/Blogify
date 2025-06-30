@@ -7,7 +7,10 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin : 'blogify-teal.vercel.app'
+  origin : [
+    'https://blogify-eight-blue.vercel.app',
+    'http://localhost:5173'
+  ]
 }));
 app.use(express.json());
 
