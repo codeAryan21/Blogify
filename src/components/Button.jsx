@@ -9,7 +9,9 @@ function Button({
 
 }) {
     return (
-        <button className={`px-4 py-2 rounded-lg ${textColor} ${bgColor} ${hover} ${className}`}
+        <button
+            type={type}
+            className={`px-4 py-2 rounded-lg ${textColor} ${bgColor} ${hover} ${className}`}
             {...props}
         >
             {children}

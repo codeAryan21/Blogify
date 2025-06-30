@@ -68,6 +68,7 @@ const Chatbot = ({ className = "" }) => {
             {/* Dark mode toggle */}
             <div className="flex justify-end mb-2">
                 <button
+                    type="button"
                     onClick={() => setDark((d) => !d)}
                     className={`px-3 py-1 rounded text-xs font-semibold border flex items-center ${
                         dark
@@ -140,6 +141,7 @@ const Chatbot = ({ className = "" }) => {
                                 {/* Copy button for assistant messages */}
                                 {msg.role === "assistant" && (
                                     <button
+                                        type="button"
                                         className="ml-2 opacity-60 hover:opacity-100 transition-opacity"
                                         title="Copy"
                                         onClick={() => handleCopy(msg.content, idx)}
