@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.1",
     "@tailwindcss/vite": "^4.0.15",
+    "@tinymce/tinymce-react": "^6.2.1",
     "appwrite": "^17.0.1",
     "html-react-parser": "^5.2.2",
     "lucide-react": "^0.485.0",
