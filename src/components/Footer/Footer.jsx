@@ -18,7 +18,7 @@ function Footer() {
                                 <Logo width="100px" />
                             </div>
 
-                            <div>
+                           <div className="hidden lg:block">
                                 <p className="text-sm text-white">
                                     &copy; Copyright 2025. All Rights Reserved by DevUI.
                                 </p>
@@ -139,6 +139,12 @@ function Footer() {
                                 </li>
                             </ul>
                         </div>
+                    </div>
+
+                    <div className="w-full mt-6 block lg:hidden">
+                        <p className="text-sm text-white text-center">
+                            &copy; Copyright 2025. All Rights Reserved by DevUI.
+                        </p>
                     </div>
 
                 </div>
