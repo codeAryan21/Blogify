@@ -27,9 +27,9 @@ export class FileService {
     }
 
     async deleteFile(fileId) {
-        console.log("File ID:", fileId);
+        // console.log("File ID:", fileId);
         if (!fileId || typeof fileId !== "string") {
-            console.log("DeleteFile error: Invalid fileId", fileId);
+            // console.log("DeleteFile error: Invalid fileId", fileId);
             return false;
         }
         console.log("Deleting File ID:", fileId);
@@ -48,12 +48,12 @@ export class FileService {
     }
 
     getFilePreview(fileId) {
-        console.log("File ID:", fileId);
+        // console.log("File ID:", fileId);
         if (!fileId || typeof fileId !== "string") {
-            console.log("GetFilePreview error: Invalid fileId", fileId);
+            // console.log("GetFilePreview error: Invalid fileId", fileId);
             return false;
         }
-        console.log("Getting preview for File ID:", fileId);
+        // console.log("Getting preview for File ID:", fileId);
         
 
         try {

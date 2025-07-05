@@ -10,6 +10,20 @@ client
 export const account = new Account(client);
 
 
+// Helper to pick only allowed fields
+function pickPostFields(post) {
+    return {
+        title: post.title,
+        content: post.content,
+        featuredImage: post.featuredImage,
+        status: post.status,
+        userId: post.userId,
+        ownerName: post.ownerName || "Unknown",
+        likes: post.likes,
+        comments: post.comments,
+    };
+}
+
 // Database Service
 export class DatabaseService {
     client = new Client();
@@ -23,14 +37,14 @@ export class DatabaseService {
         this.databases = new Databases(this.client);
     }
 
-    async createPost({ title, slug, content, featuredImage, status, userId }) {
+    async createPost({ title, slug, content, featuredImage, status, userId, ownerName }) {
         try {
             console.log("Creating post with data:", { title, slug, content, featuredImage, status, userId });
             return await this.databases.createDocument(
                 config.appwriteDatabaseID,
                 config.appwriteCollectionID,
                 slug, // slug is the document ID
-                { title, content, featuredImage, status, userId }
+                { title, content, featuredImage, status, userId, ownerName, likes: [], comments: [] }
             )
         } catch (error) {
             console.log("Configuration-CreatePost error : ", error);
@@ -40,11 +54,19 @@ export class DatabaseService {
 
     async updatePost(slug, { title, content, featuredImage, status }) { // slug is the document ID which we have to update
         try {
+            // Fetch the full document to get all required fields
+            const post = await this.getPost(slug);
             return await this.databases.updateDocument(
                 config.appwriteDatabaseID,
                 config.appwriteCollectionID,
                 slug,
-                { title, content, featuredImage, status }
+                {
+                    ...post,
+                    title,
+                    content,
+                    featuredImage,
+                    status
+                }
             )
         } catch (error) {
             console.log("Configuration-UpdatePost error : ", error);
@@ -87,14 +109,13 @@ export class DatabaseService {
                 config.appwriteDatabaseID,
                 config.appwriteCollectionID,
                 queries,
-                // [ Query.equal("status","active") ] // we can pass queries directly like this also
             )
         } catch (error) {
             console.log("Configuration-GetAllPost error : ", error);
             return false
         }
     }
- 
+
     async getPostsByUser(userId) {
         try {
             console.log("Fetching posts by user:", userId);
@@ -112,7 +133,80 @@ export class DatabaseService {
         }
     }
 
+    // Toggle Like
+    async toggleLike(postId, userId, likesArray = []) {
+        try {
+            // Fetch the full post to get all required fields
+            const post = await this.getPost(postId);
+
+            const newLikes = likesArray.includes(userId)
+                ? likesArray.filter(id => id !== userId)
+                : [...likesArray, userId];
+
+            // Always include all required fields in the update
+            return await this.databases.updateDocument(
+                config.appwriteDatabaseID,
+                config.appwriteCollectionID,
+                postId,
+                {
+                    ...pickPostFields(post),
+                    likes: newLikes
+                }
+            );
+        } catch (error) {
+            console.log("Configuration-ToggleLike error:", error);
+            throw error;
+        }
+    }
+
+    // Add Comment
+    async addComment(postId, commentsArray = [], newComment) {
+        try {
+            const post = await this.getPost(postId);
+
+            // Store comments as JSON strings
+            const updatedComments = [...commentsArray, JSON.stringify(newComment)];
+            return await this.databases.updateDocument(
+                config.appwriteDatabaseID,
+                config.appwriteCollectionID,
+                postId,
+                {
+                    ...pickPostFields(post),
+                    comments: updatedComments
+                }
+            );
+        } catch (error) {
+            console.log("Configuration-AddComment error:", error);
+            throw error;
+        }
+    }
+    
+    // When deleting a comment, compare after parsing:
+    async deleteComment(postId, commentsArray = [], commentCreatedAt) {
+        try {
+            const post = await this.getPost(postId);
+
+            // Parse, filter, and re-stringify
+            const updatedComments = commentsArray
+                .map(c => typeof c === "string" ? JSON.parse(c) : c)
+                .filter(c => c.createdAt !== commentCreatedAt)
+                .map(c => JSON.stringify(c));
+
+            return await this.databases.updateDocument(
+                config.appwriteDatabaseID,
+                config.appwriteCollectionID,
+                postId,
+                {
+                    ...pickPostFields(post),
+                    comments: updatedComments
+                }
+            );
+        } catch (error) {
+            console.log("Configuration-DeleteComment error:", error);
+            throw error;
+        }
+    }
 }
 
-const databaseService = new DatabaseService() 
-export default databaseService; 
+const databaseService = new DatabaseService()
+export default databaseService;

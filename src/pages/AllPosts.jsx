@@ -22,7 +22,7 @@ function AllPosts() {
     if (loading) {
         return <p className='text-3xl font-bold text-center mt-16'>Loading posts...</p>;
     }
-    
+
     return (
         <div className='w-full py-8'>
             <Container>
@@ -33,6 +33,8 @@ function AllPosts() {
                                 $id={post.$id}
                                 title={post.title}
                                 featuredImage={post.featuredImage}
+                                ownerName={post.ownerName}
+                                date={post.$createdAt}
                             />
                         </div>
                     ))}

@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux'
 import appwriteService from '../../appwrite/file'
 import databaseService from '../../appwrite/configuration'
 import Chatbot from "../ChatBot";
-import { FaD } from 'react-icons/fa6'
-
 
 function PostForm({ post }) {
     const isLoggedIn = useSelector(state => state.auth.status);
@@ -61,7 +59,9 @@ function PostForm({ post }) {
                     const dbPost = await databaseService.createPost({
                         ...data,
                         userId: userData.$id,
+                        ownerName: userData.name || userData.email,
                     });
+
 
                     if (dbPost) {
                         navigate(`/post/${dbPost.$id}`);
@@ -145,7 +145,7 @@ function PostForm({ post }) {
                     {...register("status", { required: true })}
                 />
 
-                { isLoggedIn && (
+                {isLoggedIn && (
                     <div className="mb-4 w-full">
                         <Chatbot className="w-full" />
                     </div>
