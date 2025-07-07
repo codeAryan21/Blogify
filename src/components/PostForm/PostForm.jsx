@@ -48,6 +48,12 @@ function PostForm({ post }) {
             }
 
         } else {
+            // Check for image
+            if (!data.image || !data.image[0]) {
+                alert("Please select a featured image.");
+                return;
+            }
+
             // we have nothing to update here user want to create new form 
             try {
                 const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
@@ -124,7 +130,7 @@ function PostForm({ post }) {
                     label="Featured Image :"
                     type="file"
                     className="mb-4"
-                    accept="image/png, image/jpg, image/jpeg, image/gif"
+                    accept="image/png, image/jpg, image/jpeg, image/gif, image/heif, image/heic"
                     {...register("image", { required: !post })}
                 />
 
